@@ -1,0 +1,30 @@
+
+
+.focus .syntax {
+    visibility: visible;
+    display: inline;
+}
+
+.syntax {
+    display: inline-block;
+    height: 0;
+    width: 0;
+    overflow: hidden;
+    word-break: break-all;
+}
+
+.editorContainer {
+    position: relative;
+    min-width: 800px;
+    min-height: 800px;
+
+    width: 800px;
+    border: 1px solid #ccc;
+    background: #fff
+}
+
+.editor {
+    position: relative;
+    z-index: 5;
+    background-color: transparent;
+}
