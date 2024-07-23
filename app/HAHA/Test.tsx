@@ -810,7 +810,7 @@ export default function Test({initialContent, ParserComponent}: {initialContent:
                 let index;
                 let offset;
                 if ('caretPositionFromPoint' in document) {
-                    range = document.caretPositionFromPoint(e.clientX, e.clientY);
+                    //range = document.caretPositionFromPoint(e.clientX, e.clientY);
                 } else if ('caretRangeFromPoint' in document) {
                     // Use WebKit-proprietary fallback method
                     range = document.caretRangeFromPoint(e.clientX, e.clientY);
@@ -842,7 +842,7 @@ export default function Test({initialContent, ParserComponent}: {initialContent:
 
 
                     if ('caretPositionFromPoint' in document) {
-                        range = document.caretPositionFromPoint(e.clientX, e.clientY);
+                        //range = document.caretPositionFromPoint(e.clientX, e.clientY);
                     } else if ('caretRangeFromPoint' in document) {
                         // Use WebKit-proprietary fallback method
                         range = document.caretRangeFromPoint(e.clientX, e.clientY);
