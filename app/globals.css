@@ -73,3 +73,23 @@ a {
     color-scheme: dark;
   }
 }
+
+.bold {
+  font-weight: bold;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.strikethrough {
+  text-decoration: line-through;
+}
+
+.highlight {
+  background-color: yellow; /* 예시 */
+}
+
+.underline {
+  text-decoration: underline;
+}
