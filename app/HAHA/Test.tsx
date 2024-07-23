@@ -113,7 +113,7 @@ export default function Test({initialContent, ParserComponent}: {initialContent:
     const [focusState, setFocusState] = useState<boolean>(false)
     const [eventState, setEventState] = useState<EventState>({type: '',})
     const [resizeState, setResizeState] = useState<[number]>([0])
-    const resizeRef = useResizeObserver(useCallback(() => {
+    const resizeRef: React.RefObject<HTMLDivElement> = useResizeObserver(useCallback(() => {
         setResizeState([0])
     },[]))
 
@@ -155,34 +155,6 @@ export default function Test({initialContent, ParserComponent}: {initialContent:
 
     })
 
-    /*
-
-
-
-    // 내용 정보, key 값
-    const [content, setContent] = useState<Content[]>(initialContent);
-    const maxIndex = useRef<number>(content.length);
-
-    // caret, 입력 위치
-    const [caretOffsetState, setCaretOffsetState] = useState<[number, number]>([0, 0])
-    const [inputOffsetState, setInputOffsetState] = useState<[number, number]>([0, 0])
-
-    // caret 렌더링 좌표
-    const [caretPositionState, setCaretPositionState] = useState<[number, number, number]>([0, 0, 0])
-
-    // caret의 연속적인 상하 이동 시 x값 고정
-    const caretUpDownX = useRef<number>(0)
-    const caretUpDownCached = useRef<boolean>(false)
-
-    // IME 상태
-    const IMEState = useRef<boolean>(false)
-    const IMELength = useRef<number>(0)
-
-    // selection 상태
-    const isSelection = useRef<boolean>(false)
-    const [selectionOffsetState, setSelectionOffsetState] = useState<[number, number]>([0,0])
-    const [selectionComponent, setSelectionComponent] = useState<any[]>([])
-        */
 
 
     const updateFocusRange = useCallback((selection: Selection) => {
@@ -285,62 +257,6 @@ export default function Test({initialContent, ParserComponent}: {initialContent:
         updateSelectionPosition(internalState.current.selection)
     }, [contents, resizeState, focusRange])
 
-/*
-    // 커서 리렌더링
-    useEffect(() => {
-        const range = getRangeByOffset(...caretOffsetState)
-        const rect = getRectByRange(range)
-        const x = rect.x
-        const y = rect.y
-        const height = Math.round(rect.height);
-
-        const editor = document.getElementById('editor-container') as HTMLDivElement;
-        const rect2 = editor.getBoundingClientRect();
-        const x2 = rect2.x
-        const y2 = rect2.y
-
-        const absoluteX = x - x2
-        const absoluteY = y - y2
-
-
-        setCaretPositionState([absoluteX, absoluteY, height])
-
-    }, [caretOffsetState, content, resizeState]);
-
-    // selction 리렌더링
-    useEffect(() => {
-        if (!isSelection.current) return;
-
-        const editor = document.getElementById('editor-container') as HTMLDivElement;
-        const rect2 = editor.getBoundingClientRect();
-        const x2 = rect2.x
-        const y2 = rect2.y
-        let startRange, endRange;
-        if ((caretOffsetState[0] === selectionOffsetState[0] && caretOffsetState[1] <= selectionOffsetState[1]) || (caretOffsetState[0] < selectionOffsetState[0])) {
-            // 같은 index 에서 offset 구분, index 구분
-            startRange = getRangeByOffset(caretOffsetState[0], caretOffsetState[1])
-            endRange = getRangeByOffset(selectionOffsetState[0], selectionOffsetState[1])
-        } else {
-            startRange = getRangeByOffset(selectionOffsetState[0], selectionOffsetState[1])
-            endRange = getRangeByOffset(caretOffsetState[0], caretOffsetState[1])
-        }
-        const startRect = getRectByRange(startRange)
-        const endRect = getRectByRange(endRange)
-        const componentList = []
-
-        // 줄바꿈 인 경우
-        if (startRect.bottom <= endRect.top) {
-            componentList.push(<div key={1} style={{zIndex: 1, position: 'absolute', left: `${startRect.x - x2}px`, top: `${startRect.y - y2}px`, right: '0px', height: `${startRect.bottom - startRect.top}px`, backgroundColor: "rgba(187, 214, 251, 255)" }} />)
-            componentList.push(<div key={2} style={{zIndex: 1, position: 'absolute', left: `0px`, top: `${startRect.bottom - y2}px`, right: '0px', height: `${endRect.top - startRect.bottom}px`, backgroundColor: "rgba(187, 214, 251, 255)" }} />)
-            componentList.push(<div key={3} style={{zIndex: 1, position: 'absolute', left: `0px`, top: `${endRect.y - y2}px`, width: `${endRect.x - x2}px`, height: `${endRect.height}px`, backgroundColor: "rgba(187, 214, 251, 255)" }} />)
-        } else {
-            componentList.push(<div key={1} style={{zIndex: 1, position: 'absolute', left: `${startRect.x - x2}px`, top: `${startRect.y - y2}px`, width: `${endRect.x - startRect.x}px`, height: `${startRect.height}px`, backgroundColor: "rgba(187, 214, 251, 255)" }} />)
-        }
-        setSelectionComponent(componentList)
-
-    }, [selectionOffsetState, content, resizeState]);
-
- */
 
     // 이벤트 처리
     useEffect(() => {
@@ -348,7 +264,7 @@ export default function Test({initialContent, ParserComponent}: {initialContent:
         switch (type) {
             case 'keyDown': {
                 if ('keyDown' in eventState) {
-                    // Safri는 알아서 잘 처리하는데, chrome은 키다운 -> IME 완료 -> 키다운, 이렇게 하기에 그걸 방지하기 위한
+                    // Safari 는 알아서 잘 처리하는데, chrome 은 키다운 -> IME 완료 -> 키다운, 이렇게 하기에 그걸 방지하기 위한
                     const IME = internalState.current.IME
                     if (IME.IMEState) {
                         // IME 중에는 IME 백스페이스 기본 동작 실행
@@ -371,13 +287,13 @@ export default function Test({initialContent, ParserComponent}: {initialContent:
                             }
 
                             if (e.metaKey && !e.shiftKey) {
-                                // Meta key만 눌림
+                                // Meta key 만 눌림
                                 selection.setStartOffset([0, 0])
                                 selection.collapse(true)
                             }
 
                             if (e.shiftKey && !e.metaKey) {
-                                // Shift key만 눌림
+                                // Shift key 만 눌림
                                 const startOffset = selection.startOffset;
                                 const endOffset = selection.endOffset;
                                 const verticalCaret = internalState.current.verticalCaret;
@@ -433,14 +349,14 @@ export default function Test({initialContent, ParserComponent}: {initialContent:
                             }
 
                             if (e.metaKey && !e.shiftKey) {
-                                // Meta key만 눌림
+                                // Meta key 만 눌림
                                 const content = contents.content;
                                 selection.setStartOffset([content.length - 1, content[content.length - 1].text.length]);
                                 selection.collapse(true)
                             }
 
                             if (e.shiftKey && !e.metaKey) {
-                                // Shift key만 눌림
+                                // Shift key 만 눌림
                                 const startOffset = selection.startOffset;
                                 const endOffset = selection.endOffset;
                                 const verticalCaret = internalState.current.verticalCaret;
@@ -498,14 +414,14 @@ export default function Test({initialContent, ParserComponent}: {initialContent:
                             }
 
                             if (e.metaKey && !e.shiftKey) {
-                                // Meta key만 눌림
+                                // Meta key 만 눌림
                                 const [index, offset] = selection.startOffset;
                                 selection.setStartOffset(getCaretLeftEndOffset(index, offset, contents.content) ?? [index, offset]);
                                 selection.collapse(true)
                             }
 
                             if (e.shiftKey && !e.metaKey) {
-                                // Shift key만 눌림
+                                // Shift key 만 눌림
                                 const startOffset = selection.startOffset;
                                 const endOffset = selection.endOffset;
                                 if (selection.isFocusEnd) {
@@ -548,14 +464,14 @@ export default function Test({initialContent, ParserComponent}: {initialContent:
                             }
 
                             if (e.metaKey && !e.shiftKey) {
-                                // Meta key만 눌림
+                                // Meta key 만 눌림
                                 const [index, offset] = selection.endOffset;
                                 selection.setStartOffset(getCaretRightEndOffset(index, offset, contents.content) ?? [index, offset]);
                                 selection.collapse(true)
                             }
 
                             if (e.shiftKey && !e.metaKey) {
-                                // Shift key만 눌림
+                                // Shift key 만 눌림
                                 const startOffset = selection.startOffset;
                                 const endOffset = selection.endOffset;
                                 if (selection.isFocusEnd) {
@@ -681,7 +597,7 @@ export default function Test({initialContent, ParserComponent}: {initialContent:
 
                     // 내용 추가 삭제에 따른 caret 동작
                     if (['Enter', 'Backspace'].includes(e.code)) {
-                        // 포커스만 변경, selectionPosition은 content변경에 따른 useLayoutEffect에서 처리
+                        // 포커스만 변경, selectionPosition 은 content 변경에 따른 useLayoutEffect 에서 처리
                         updateFocusRange(internalState.current.selection)
                     }
                 }
@@ -813,7 +729,7 @@ export default function Test({initialContent, ParserComponent}: {initialContent:
                     //range = document.caretPositionFromPoint(e.clientX, e.clientY);
                 } else if ('caretRangeFromPoint' in document) {
                     // Use WebKit-proprietary fallback method
-                    range = document.caretRangeFromPoint(e.clientX, e.clientY);
+                    range = document.caretRangeFromPoint(e.clientX, e.clientY) as Range;
                     [index, offset] = getOffsetByRange(range)
                     selection.setStartOffset([index, offset])
                     selection.collapse(true)
@@ -845,7 +761,7 @@ export default function Test({initialContent, ParserComponent}: {initialContent:
                         //range = document.caretPositionFromPoint(e.clientX, e.clientY);
                     } else if ('caretRangeFromPoint' in document) {
                         // Use WebKit-proprietary fallback method
-                        range = document.caretRangeFromPoint(e.clientX, e.clientY);
+                        range = document.caretRangeFromPoint(e.clientX, e.clientY) as Range;
                         [index, offset] = getOffsetByRange(range)
                         if (selection.isFocusEnd) {
                             updateSelectionFocusEnd([index, offset], selection)
@@ -1224,7 +1140,7 @@ const getCaretRightEndOffset = (index: number, offset: number, content: Content[
 
 
 function Input({setEventState, position}: {setEventState: Function, position: Rect}) {
-    const ref = useRef()
+    const ref = useRef<HTMLDivElement>(null)
 
     return (
         <div
@@ -1269,9 +1185,11 @@ function Input({setEventState, position}: {setEventState: Function, position: Re
                 }
                 setEventState(newEventState)
                 // 내용 비우기
-                ref.current.textContent = ''
+                if (ref.current) {
+                    (ref.current as HTMLDivElement).textContent = ''
+                }
             }, [setEventState])}
-            onInput={useCallback((e: React.FormEvent<HTMLInputElement>) => {
+            onInput={useCallback((e: React.SyntheticEvent<HTMLInputElement, InputEvent>) => {
                 const nativeEvent = e.nativeEvent as InputEvent;
                 const newEventState: EventState = {
                     type: 'input',
@@ -1282,8 +1200,8 @@ function Input({setEventState, position}: {setEventState: Function, position: Re
                 }
                 setEventState(newEventState)
                 // 내용 비우기
-                if (!e.nativeEvent.isComposing) {
-                    ref.current.textContent = ''
+                if (!e.nativeEvent.isComposing && ref.current) {
+                    (ref.current as HTMLDivElement).textContent = ''
                 }
             }, [setEventState])}
             onKeyDown={useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -1373,7 +1291,7 @@ function Selection({startRect, endRect}: {startRect: Rect, endRect: Rect}) {
 
 function TextSelection({selectionPosition}: {selectionPosition: SelectionPosition | null}) {
     if (!selectionPosition) {
-        return
+        return null
     }
 
     if (selectionPosition.isCollapsed) {

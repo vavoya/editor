@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 
 const useResizeObserver = (callback: () => void) => {
-    const elementRef = useRef<HTMLElement | null>(null);
+    const elementRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const observer = new ResizeObserver((entries) => {
