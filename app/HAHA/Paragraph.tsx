@@ -74,11 +74,12 @@ const parseText = (text: string): TextRunType[] => {
         }
 
         if (text1 === '\\') {
-            addSyntaxTextRun('\\')
-            const textData = text[right + 1]
-            console.log(textData)
+            let textData = getTextData()
             if (textData) addTextRun(textData);
-            left = right += 1 + textData.length;
+            addSyntaxTextRun('\\')
+            textData = text[right + 1]
+            if (textData) addTextRun(textData);
+            left = right += 1 + textData?.length;
             continue
         }
 
