@@ -561,6 +561,116 @@ setTimeout(() => {
     }
 }, 1000);
 
+
+=====
+=====
+/Users/heodong-yeong/.nvm/versions/node/v23.5.0/bin/node --import file:/Users/heodong-yeong/Applications/WebStorm.app/Contents/plugins/nodeJS/js/ts-file-loader/node_modules/tsx/dist/loader.cjs /Users/heodong-yeong/WebstormProjects/react-markdown-WYSIWYG-editor/src/markdownParser/parseBlocks/index.ts
+[0] Execution time: 156.397 ms
+[1] Execution time: 3.526 ms
+[2] Execution time: 3.008 ms
+[3] Execution time: 3.114 ms
+[4] Execution time: 3.658 ms
+[5] Execution time: 2.743 ms
+[6] Execution time: 2.854 ms
+[7] Execution time: 2.703 ms
+[8] Execution time: 2.547 ms
+[9] Execution time: 2.902 ms
+[10] Execution time: 2.622 ms
+[11] Execution time: 3.574 ms
+[12] Execution time: 2.633 ms
+[13] Execution time: 2.658 ms
+[14] Execution time: 2.412 ms
+[15] Execution time: 2.947 ms
+[16] Execution time: 2.683 ms
+[17] Execution time: 2.498 ms
+[18] Execution time: 2.597 ms
+[19] Execution time: 2.681 ms
+[20] Execution time: 2.476 ms
+[21] Execution time: 2.675 ms
+[22] Execution time: 2.504 ms
+[23] Execution time: 2.403 ms
+[24] Execution time: 2.396 ms
+[25] Execution time: 3.135 ms
+[26] Execution time: 2.445 ms
+[27] Execution time: 2.433 ms
+[28] Execution time: 2.449 ms
+[29] Execution time: 2.564 ms
+[30] Execution time: 2.793 ms
+[31] Execution time: 2.450 ms
+[32] Execution time: 3.495 ms
+[33] Execution time: 2.524 ms
+[34] Execution time: 2.412 ms
+[35] Execution time: 2.483 ms
+[36] Execution time: 2.549 ms
+[37] Execution time: 2.574 ms
+[38] Execution time: 2.413 ms
+[39] Execution time: 3.261 ms
+[40] Execution time: 2.489 ms
+[41] Execution time: 2.398 ms
+[42] Execution time: 2.380 ms
+[43] Execution time: 2.365 ms
+[44] Execution time: 2.561 ms
+[45] Execution time: 2.538 ms
+[46] Execution time: 3.135 ms
+[47] Execution time: 2.394 ms
+[48] Execution time: 2.347 ms
+[49] Execution time: 2.381 ms
+[50] Execution time: 2.529 ms
+[51] Execution time: 2.585 ms
+[52] Execution time: 2.406 ms
+[53] Execution time: 3.107 ms
+[54] Execution time: 2.561 ms
+[55] Execution time: 2.636 ms
+[56] Execution time: 2.532 ms
+[57] Execution time: 2.778 ms
+[58] Execution time: 2.546 ms
+[59] Execution time: 2.623 ms
+[60] Execution time: 3.236 ms
+[61] Execution time: 2.358 ms
+[62] Execution time: 2.433 ms
+[63] Execution time: 2.406 ms
+[64] Execution time: 2.560 ms
+[65] Execution time: 2.522 ms
+[66] Execution time: 2.409 ms
+[67] Execution time: 3.191 ms
+[68] Execution time: 2.487 ms
+[69] Execution time: 2.407 ms
+[70] Execution time: 2.396 ms
+[71] Execution time: 2.472 ms
+[72] Execution time: 2.531 ms
+[73] Execution time: 2.417 ms
+[74] Execution time: 3.110 ms
+[75] Execution time: 2.507 ms
+[76] Execution time: 2.437 ms
+[77] Execution time: 2.384 ms
+[78] Execution time: 2.434 ms
+[79] Execution time: 2.433 ms
+[80] Execution time: 2.490 ms
+[81] Execution time: 3.492 ms
+[82] Execution time: 2.398 ms
+[83] Execution time: 2.481 ms
+[84] Execution time: 2.389 ms
+[85] Execution time: 2.390 ms
+[86] Execution time: 2.424 ms
+[87] Execution time: 2.362 ms
+[88] Execution time: 3.229 ms
+[89] Execution time: 2.802 ms
+[90] Execution time: 2.410 ms
+[91] Execution time: 2.401 ms
+[92] Execution time: 2.595 ms
+[93] Execution time: 2.591 ms
+[94] Execution time: 2.394 ms
+[95] Execution time: 3.429 ms
+[96] Execution time: 2.524 ms
+[97] Execution time: 2.568 ms
+[98] Execution time: 2.492 ms
+[99] Execution time: 2.617 ms
+
+종료 코드 0(으)로 완료된 프로세스
+
+
+
+
 ```
 해당 코드 실행하면 첫 실행은 150ms, 그 외에는 2~3ms 를 보여준다.   
 commomMark에서 제공하는 파서와 비교 결과. commomMark는 입력에 대한 평균 4ms 시간을 보여준다.
