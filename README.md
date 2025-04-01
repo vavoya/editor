@@ -500,3 +500,74 @@ if (text1 === '\\') {
 그래도 일단 이 프로젝트는 완전한 커스텀 라이브러리로 만드는 것이 목표였기에, 새로 레파지토리를 구성한 다음에 이어서 작업할 예정입니다.
 
 코드를 다시 돌아보면서 설명 쓰는게 힘들....
+
+
+
+# 마크다운 파서 제작 여정
+```ts
+import {Lines, RootBlock} from "./types";
+import resolveTargetBlock from "./resolveTargetBlock";
+
+function testResolveTargetBlock(t: number) {
+    const rootBlock: RootBlock = { type: 'rootBlock', children: [] };
+    const lines: Lines = [];
+
+    const buildIncrementalText = (i: number) => {
+        const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+        let result = '';
+        for (let j = 0; j < i; j++) {
+            result += alphabet[j % 26];
+        }
+        return result;
+    };
+
+    for (let i = 0; i < 500; i++) {
+        const suffix = buildIncrementalText(0);  // 점점 길어지는 문자열
+
+        lines.push(`# He**ad**in*g ${suffix}`);
+        lines.push(`Some p**arag*raph** text number ${suffix}`);
+        lines.push(`- Item ${suffix}`);
+        lines.push(`  - Subitem ${suffix}`);
+        lines.push(`    - SubSubitem ${suffix}`);
+        lines.push(`> Quote level 1 ${suffix}`);
+        lines.push(`> > Quote level 2 ${suffix}`);
+        lines.push(`> > > Quote level 3 ${suffix}`);
+        lines.push("```js");
+        lines.push(`const index = ${0 + i};`);
+        lines.push(`console.log(index);`);
+        lines.push("```");
+        lines.push(`Paragraph after code block ${suffix}`);
+        lines.push(`---`);
+    }
+    lines.push("2".repeat(t))
+    const startTime = performance.now();
+    let currentIndex = 0;
+    while (currentIndex < lines.length) {
+        resolveTargetBlock(rootBlock, lines[currentIndex]);
+        currentIndex++;
+    }
+    const endTime = performance.now();
+    console.log(`[${t}] Execution time: ${(endTime - startTime).toFixed(3)} ms`);
+}
+
+
+
+setTimeout(() => {
+    for (let i = 0; i < 100; i++) {
+        //const startTime = performance.now();
+        testResolveTargetBlock(i);  // i를 기반으로 lines 내용이 바뀌게
+        //const endTime = performance.now();
+        //console.log(`[${i}] Execution time: ${(endTime - startTime).toFixed(3)} ms`);
+    }
+}, 1000);
+
+```
+해당 코드 실행하면 첫 실행은 150ms, 그 외에는 2~3ms 를 보여준다.   
+commomMark에서 제공하는 파서와 비교 결과. commomMark는 입력에 대한 평균 4ms 시간을 보여준다.
+
+첫 실행이 아쉽지만, 실시간 파싱 상황에서는 상용 라이브러리 성능 까지는 끌어올린 듯 하다.   
+내부적으로 인라인 캐시를 관리하고 적용한 것이 꽤 큰 효과가 있었다.
+
+\*\* 같은 일반적인 인라인 파싱은 미미했지만, 코드 블럭 인라인의 경우 캐시를 하고 안하고의 시간 차이가 배로 차이가 났다.
+
+
